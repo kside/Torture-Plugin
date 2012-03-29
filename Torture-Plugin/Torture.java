@@ -65,7 +65,7 @@ public class test extends JavaPlugin
 			if (player != null && !player.hasPermission("torture." + cmd.getName()))
 			{
 				player.sendMessage(ChatColor.RED + "You do not have the proper permissions to use this command");
-				return false;
+				return true;
 			}
 			else if (cmd.getName().equalsIgnoreCase("thelp"))
 			{
