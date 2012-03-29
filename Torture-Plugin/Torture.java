@@ -129,25 +129,13 @@ public class test extends JavaPlugin
 					return true;
 				}
 			}
-
-			else if (player == null && args.length == 0)
-			{
-				sender.sendMessage(ChatColor.RED + "Please type player name (/" + cmd.getName() + " <player>)");
-				return true;
-			}
-			else if (Bukkit.getServer().getPlayer(args[0]) == null)
-			{
-				sender.sendMessage(ChatColor.RED + args[0] + " is not online.");
-				return true;
-			}
-			Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
 			Player tplayer = player;
 			int time = 500;
 			int strength = 0;
 			int strength2 = 0;
-			if (args.length > 0 || args.length < 4)
+			if (args.length > 0 && args.length < 4)
 			{
-				tplayer = targetPlayer;
+				tplayer = Bukkit.getServer().getPlayer(args[0]);
 				if (args.length == 2)
 				{
 					time = Integer.parseInt(args[1]) * 20;
@@ -177,8 +165,17 @@ public class test extends JavaPlugin
 			 * 13, z); Location NewTargetPlayerLocation1 = new
 			 * Location(currentTargetWorld, x, y + distance, z);
 			 */
-
-			if (cmd.getName().equalsIgnoreCase("starve"))
+			if (player == null && args.length == 0)
+			{
+				sender.sendMessage(ChatColor.RED + "Please type player name (/" + cmd.getName() + " <player>)");
+				return true;
+			}
+			else if (Bukkit.getServer().getPlayer(args[0]) == null)
+			{
+				sender.sendMessage(ChatColor.RED + args[0] + " is not online.");
+				return true;
+			}
+			else if (cmd.getName().equalsIgnoreCase("starve"))
 			{
 				if (args.length < 2)
 				{
@@ -203,7 +200,7 @@ public class test extends JavaPlugin
 				}
 				else if (args.length == 2)
 				{
-					tplayer.setHealth(targetPlayer.getHealth() - Integer.parseInt(args[1]));
+					tplayer.setHealth(tplayer.getHealth() - Integer.parseInt(args[1]));
 					sender.sendMessage(ChatColor.RED + "You hurt " + args[0] + "!");
 					return true;
 				}
@@ -374,30 +371,16 @@ public class test extends JavaPlugin
 				Villager v7 = (Villager) tplayer.getWorld().spawnCreature(Villager7, EntityType.VILLAGER);
 				Villager v8 = (Villager) tplayer.getWorld().spawnCreature(Villager8, EntityType.VILLAGER);
 
-				if (args.length == 0)
+				if (args.length < 2)
 				{
-					v1.setTarget(player);
-					v2.setTarget(player);
-					v3.setTarget(player);
-					v4.setTarget(player);
-					v5.setTarget(player);
-					v6.setTarget(player);
-					v7.setTarget(player);
-					v8.setTarget(player);
-
-					player.sendMessage(ChatColor.RED + "You annoyed yourself!");
-					return true;
-				}
-				else if (args.length == 1)
-				{
-					v1.setTarget(targetPlayer);
-					v2.setTarget(targetPlayer);
-					v3.setTarget(targetPlayer);
-					v4.setTarget(targetPlayer);
-					v5.setTarget(targetPlayer);
-					v6.setTarget(targetPlayer);
-					v7.setTarget(targetPlayer);
-					v8.setTarget(targetPlayer);
+					v1.setTarget(tplayer);
+					v2.setTarget(tplayer);
+					v3.setTarget(tplayer);
+					v4.setTarget(tplayer);
+					v5.setTarget(tplayer);
+					v6.setTarget(tplayer);
+					v7.setTarget(tplayer);
+					v8.setTarget(tplayer);
 
 					sender.sendMessage(ChatColor.RED + "You annoyed " + args[0] + " with villagers!");
 					return true;
@@ -412,25 +395,15 @@ public class test extends JavaPlugin
 				Wolf w1 = (Wolf) player.getWorld().spawnCreature(Wolf1, EntityType.WOLF);
 				Wolf w2 = (Wolf) player.getWorld().spawnCreature(Wolf2, EntityType.WOLF);
 				Wolf w3 = (Wolf) player.getWorld().spawnCreature(Wolf3, EntityType.WOLF);
-				if (args.length == 0)
+
+				if (args.length < 2)
 				{
 					w1.setAngry(true);
 					w2.setAngry(true);
 					w3.setAngry(true);
-					w1.setTarget(player);
-					w2.setTarget(player);
-					w3.setTarget(player);
-					player.sendMessage(ChatColor.RED + "You are being chased by rabid wolves!");
-					return true;
-				}
-				else if (args.length == 1)
-				{
-					w1.setAngry(true);
-					w2.setAngry(true);
-					w3.setAngry(true);
-					w1.setTarget(targetPlayer);
-					w2.setTarget(targetPlayer);
-					w3.setTarget(targetPlayer);
+					w1.setTarget(tplayer);
+					w2.setTarget(tplayer);
+					w3.setTarget(tplayer);
 
 					sender.sendMessage(ChatColor.RED + "You spawned rabid wolves near " + args[0] + "!");
 					return true;
@@ -448,96 +421,7 @@ public class test extends JavaPlugin
 				int count8 = 0;
 				int count9 = 0;
 
-				if (args.length == 0)
-				{
-					y = y - 1;
-					x = x + 1;
-					while (count2 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count2++;
-					}
-					y = y - count2;
-					x = x - 2;
-					while (count3 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count3++;
-					}
-					y = y - count3;
-					x = x + 1;
-					z = z + 1;
-					while (count4 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count4++;
-					}
-					y = y - count4;
-					z = z - 2;
-					while (count5 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count5++;
-					}
-					y = y - count5;
-					x = x + 1;
-					while (count6 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count6++;
-					}
-					y = y - count6;
-					x = x - 2;
-					while (count7 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count7++;
-					}
-					y = y - count7;
-					z = z + 2;
-					while (count8 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count8++;
-					}
-					y = y - count8;
-					x = x + 2;
-					while (count9 <= 2)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.DIRT);
-						count9++;
-					}
-					x = x - 1;
-					z = z - 1;
-					y = y - count9 + 3;
-					while (count1 <= 10)
-					{
-						y++;
-						Location Sand = new Location(currentWorld, x, y, z);
-						Sand.getBlock().setType(Material.SAND);
-						count1++;
-					}
-
-					player.sendMessage(ChatColor.RED + "You suffocated!");
-					return true;
-				}
-				else if (args.length == 1)
+				if (args.length < 2)
 				{
 					y = y - 1;
 					x = x + 1;
@@ -630,7 +514,7 @@ public class test extends JavaPlugin
 			else if (cmd.getName().equalsIgnoreCase("rainoffire"))
 			{
 				final Random rg = new Random();
-				if (args.length == 0)
+				if (args.length < 2)
 				{
 					Location loc = new Location(currentWorld, x, y, z);
 					loc.setY(loc.getY() + 15);
@@ -638,19 +522,7 @@ public class test extends JavaPlugin
 					loc.setZ(loc.getZ() + (rg.nextInt((2 * 5) + 1) - 5));
 					loc.setPitch(-90);
 					Vector vec = new Vector(0, -1, 0);
-					Arrow arrow = player.getWorld().spawnArrow(loc, vec, 0.6f, 12f);
-					arrow.setFireTicks(500);
-					player.sendMessage(ChatColor.RED + "You were shot at!");
-				}
-				else if (args.length == 1)
-				{
-					Location loc = new Location(currentWorld, x, y, z);
-					loc.setY(loc.getY() + 15);
-					loc.setX(loc.getX() + (rg.nextInt((2 * 5) + 1) - 5));
-					loc.setZ(loc.getZ() + (rg.nextInt((2 * 5) + 1) - 5));
-					loc.setPitch(-90);
-					Vector vec = new Vector(0, -1, 0);
-					Arrow arrow = targetPlayer.getWorld().spawnArrow(loc, vec, 0.6f, 12f);
+					Arrow arrow = tplayer.getWorld().spawnArrow(loc, vec, 0.6f, 12f);
 					arrow.setFireTicks(500);
 					sender.sendMessage(ChatColor.RED + "You rained fire down upon " + args[0]);
 				}
@@ -671,7 +543,7 @@ public class test extends JavaPlugin
 						loc.setZ(loc.getZ() + (rg.nextInt((2 * 5) + 1) - 5));
 						loc.setPitch(-90);
 						Vector vec = new Vector(0, -1, 0);
-						Arrow arrow = targetPlayer.getWorld().spawnArrow(loc, vec, 0.6f, 12f);
+						Arrow arrow = tplayer.getWorld().spawnArrow(loc, vec, 0.6f, 12f);
 						arrow.setFireTicks(500);
 					}
 					sender.sendMessage(ChatColor.RED + "You rained fire down upon " + args[0]);
@@ -688,22 +560,12 @@ public class test extends JavaPlugin
 				Spider s2 = (Spider) player.getWorld().spawnCreature(Spider2, EntityType.SPIDER);
 				Spider s3 = (Spider) player.getWorld().spawnCreature(Spider3, EntityType.SPIDER);
 				Spider s4 = (Spider) player.getWorld().spawnCreature(Spider4, EntityType.SPIDER);
-				if (args.length == 0)
+				if (args.length < 2)
 				{
-					s1.setTarget(player);
-					s2.setTarget(player);
-					s3.setTarget(player);
-					s4.setTarget(player);
-
-					player.sendMessage(ChatColor.RED + "You spawned spiders around yourself!");
-					return true;
-				}
-				else if (args.length == 1)
-				{
-					s1.setTarget(targetPlayer);
-					s2.setTarget(targetPlayer);
-					s3.setTarget(targetPlayer);
-					s4.setTarget(targetPlayer);
+					s1.setTarget(tplayer);
+					s2.setTarget(tplayer);
+					s3.setTarget(tplayer);
+					s4.setTarget(tplayer);
 
 					sender.sendMessage(ChatColor.RED + "You spawned spiders near " + args[0] + "!");
 					return true;
@@ -720,22 +582,13 @@ public class test extends JavaPlugin
 				Skeleton s2 = (Skeleton) player.getWorld().spawnCreature(Skeleton2, EntityType.SKELETON);
 				Skeleton s3 = (Skeleton) player.getWorld().spawnCreature(Skeleton3, EntityType.SKELETON);
 				Skeleton s4 = (Skeleton) player.getWorld().spawnCreature(Skeleton4, EntityType.SKELETON);
-				if (args.length == 0)
-				{
-					s1.setTarget(player);
-					s2.setTarget(player);
-					s3.setTarget(player);
-					s4.setTarget(player);
 
-					player.sendMessage(ChatColor.RED + "You spawned skeletons around yourself!");
-					return true;
-				}
-				else if (args.length == 1)
+				if (args.length < 2)
 				{
-					s1.setTarget(targetPlayer);
-					s2.setTarget(targetPlayer);
-					s3.setTarget(targetPlayer);
-					s4.setTarget(targetPlayer);
+					s1.setTarget(tplayer);
+					s2.setTarget(tplayer);
+					s3.setTarget(tplayer);
+					s4.setTarget(tplayer);
 
 					sender.sendMessage(ChatColor.RED + "You spawned skeletons near " + args[0] + "!");
 					return true;
@@ -753,22 +606,12 @@ public class test extends JavaPlugin
 				Zombie s3 = (Zombie) player.getWorld().spawnCreature(Zombie3, EntityType.ZOMBIE);
 				Zombie s4 = (Zombie) player.getWorld().spawnCreature(Zombie4, EntityType.ZOMBIE);
 
-				if (args.length == 0)
+				if (args.length < 2)
 				{
-					s1.setTarget(player);
-					s2.setTarget(player);
-					s3.setTarget(player);
-					s4.setTarget(player);
-
-					player.sendMessage(ChatColor.RED + "You spawned zombies around yourself!");
-					return true;
-				}
-				else if (args.length == 1)
-				{
-					s1.setTarget(targetPlayer);
-					s2.setTarget(targetPlayer);
-					s3.setTarget(targetPlayer);
-					s4.setTarget(targetPlayer);
+					s1.setTarget(tplayer);
+					s2.setTarget(tplayer);
+					s3.setTarget(tplayer);
+					s4.setTarget(tplayer);
 
 					sender.sendMessage(ChatColor.RED + "You spawned zombies near " + args[0] + "!");
 					return true;
@@ -776,65 +619,34 @@ public class test extends JavaPlugin
 			}
 			else if (cmd.getName().equalsIgnoreCase("tstop"))
 			{
-				if (args.length == 0)
+				if (args.length < 2)
 				{
-					if (player.hasPotionEffect(PotionEffectType.POISON) == true)
+					if (tplayer.hasPotionEffect(PotionEffectType.POISON) == true)
 					{
-						player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 0, 0), true);
+						tplayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 0, 0), true);
 					}
-					if (player.hasPotionEffect(PotionEffectType.BLINDNESS))
+					else if (tplayer.hasPotionEffect(PotionEffectType.BLINDNESS))
 					{
-						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 0, 0), true);
+						tplayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 0, 0), true);
 					}
-					if (player.hasPotionEffect(PotionEffectType.SLOW))
+					else if (tplayer.hasPotionEffect(PotionEffectType.SLOW))
 					{
-						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 0, 0), true);
+						tplayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 0, 0), true);
 					}
-					if (player.hasPotionEffect(PotionEffectType.HUNGER))
+					else if (tplayer.hasPotionEffect(PotionEffectType.HUNGER))
 					{
-						player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 0, 0), true);
+						tplayer.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 0, 0), true);
 					}
-					if (player.hasPotionEffect(PotionEffectType.CONFUSION))
+					else if (tplayer.hasPotionEffect(PotionEffectType.CONFUSION))
 					{
-						player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 0, 0), true);
+						tplayer.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 0, 0), true);
 					}
-					if (player.hasPotionEffect(PotionEffectType.SLOW_DIGGING))
+					else if (tplayer.hasPotionEffect(PotionEffectType.SLOW_DIGGING))
 					{
-						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 0, 0), true);
+						tplayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 0, 0), true);
 					}
-					player.setHealth(20);
-					player.setFoodLevel(20);
-					player.sendMessage(ChatColor.GREEN + "You are cured!");
-					return true;
-				}
-				else if (args.length == 1)
-				{
-					if (targetPlayer.hasPotionEffect(PotionEffectType.POISON) == true)
-					{
-						targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 0, 0), true);
-					}
-					if (targetPlayer.hasPotionEffect(PotionEffectType.BLINDNESS))
-					{
-						targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 0, 0), true);
-					}
-					if (targetPlayer.hasPotionEffect(PotionEffectType.SLOW))
-					{
-						targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 0, 0), true);
-					}
-					if (targetPlayer.hasPotionEffect(PotionEffectType.HUNGER))
-					{
-						targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 0, 0), true);
-					}
-					if (targetPlayer.hasPotionEffect(PotionEffectType.CONFUSION))
-					{
-						targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 0, 0), true);
-					}
-					if (targetPlayer.hasPotionEffect(PotionEffectType.SLOW_DIGGING))
-					{
-						targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 0, 0), true);
-					}
-					targetPlayer.setHealth(20);
-					targetPlayer.setFoodLevel(20);
+					tplayer.setHealth(20);
+					tplayer.setFoodLevel(20);
 					return true;
 				}
 
