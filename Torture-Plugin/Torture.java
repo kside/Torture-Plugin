@@ -12,14 +12,9 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Spider;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.Wolf;
-import org.bukkit.entity.Zombie;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -205,7 +200,6 @@ public class test extends JavaPlugin
 					sender.sendMessage(ChatColor.RED + "You hurt " + args[0] + "!");
 					return true;
 				}
-
 			}
 			else if (cmd.getName().equalsIgnoreCase("ignite"))
 			{
@@ -327,89 +321,6 @@ public class test extends JavaPlugin
 					return true;
 				}
 			}
-			else if (cmd.getName().equalsIgnoreCase("creeper"))
-			{
-				Location mloc1 = new Location(currentWorld, x + 1, y, z);
-				Location mloc2 = new Location(currentWorld, x - 1, y, z);
-				Location mloc3 = new Location(currentWorld, x, y, z + 1);
-				Location mloc4 = new Location(currentWorld, x, y, z - 1);
-
-				EntityType mob = EntityType.CREEPER;
-
-				Creeper m1 = (Creeper) tplayer.getWorld().spawnCreature(mloc1, mob);
-				Creeper m2 = (Creeper) tplayer.getWorld().spawnCreature(mloc2, mob);
-				Creeper m3 = (Creeper) tplayer.getWorld().spawnCreature(mloc3, mob);
-				Creeper m4 = (Creeper) tplayer.getWorld().spawnCreature(mloc4, mob);
-
-				if (args.length < 2)
-				{
-					m1.setTarget(tplayer);
-					m2.setTarget(tplayer);
-					m3.setTarget(tplayer);
-					m4.setTarget(tplayer);
-
-					sender.sendMessage(ChatColor.RED + "You spawned creepers near " + args[0] + "!");
-					return true;
-				}
-			}
-			else if (cmd.getName().equalsIgnoreCase("annoy"))
-			{
-				Location Villager1 = new Location(currentWorld, x + 1, y, z);
-				Location Villager2 = new Location(currentWorld, x - 1, y, z);
-				Location Villager3 = new Location(currentWorld, x, y, z + 1);
-				Location Villager4 = new Location(currentWorld, x, y, z - 1);
-				Location Villager5 = new Location(currentWorld, x + 2, y, z);
-				Location Villager6 = new Location(currentWorld, x - 2, y, z);
-				Location Villager7 = new Location(currentWorld, x, y, z + 2);
-				Location Villager8 = new Location(currentWorld, x, y, z - 2);
-
-				Villager v1 = (Villager) tplayer.getWorld().spawnCreature(Villager1, EntityType.VILLAGER);
-				Villager v2 = (Villager) tplayer.getWorld().spawnCreature(Villager2, EntityType.VILLAGER);
-				Villager v3 = (Villager) tplayer.getWorld().spawnCreature(Villager3, EntityType.VILLAGER);
-				Villager v4 = (Villager) tplayer.getWorld().spawnCreature(Villager4, EntityType.VILLAGER);
-				Villager v5 = (Villager) tplayer.getWorld().spawnCreature(Villager5, EntityType.VILLAGER);
-				Villager v6 = (Villager) tplayer.getWorld().spawnCreature(Villager6, EntityType.VILLAGER);
-				Villager v7 = (Villager) tplayer.getWorld().spawnCreature(Villager7, EntityType.VILLAGER);
-				Villager v8 = (Villager) tplayer.getWorld().spawnCreature(Villager8, EntityType.VILLAGER);
-
-				if (args.length < 2)
-				{
-					v1.setTarget(tplayer);
-					v2.setTarget(tplayer);
-					v3.setTarget(tplayer);
-					v4.setTarget(tplayer);
-					v5.setTarget(tplayer);
-					v6.setTarget(tplayer);
-					v7.setTarget(tplayer);
-					v8.setTarget(tplayer);
-
-					sender.sendMessage(ChatColor.RED + "You annoyed " + args[0] + " with villagers!");
-					return true;
-				}
-			}
-			else if (cmd.getName().equalsIgnoreCase("rabid"))
-			{
-				Location Wolf1 = new Location(currentWorld, x + 5, y, z);
-				Location Wolf2 = new Location(currentWorld, x + 5, y, z - 1);
-				Location Wolf3 = new Location(currentWorld, x + 5, y, z + 1);
-
-				Wolf w1 = (Wolf) player.getWorld().spawnCreature(Wolf1, EntityType.WOLF);
-				Wolf w2 = (Wolf) player.getWorld().spawnCreature(Wolf2, EntityType.WOLF);
-				Wolf w3 = (Wolf) player.getWorld().spawnCreature(Wolf3, EntityType.WOLF);
-
-				if (args.length < 2)
-				{
-					w1.setAngry(true);
-					w2.setAngry(true);
-					w3.setAngry(true);
-					w1.setTarget(tplayer);
-					w2.setTarget(tplayer);
-					w3.setTarget(tplayer);
-
-					sender.sendMessage(ChatColor.RED + "You spawned rabid wolves near " + args[0] + "!");
-					return true;
-				}
-			}
 			else if (cmd.getName().equalsIgnoreCase("suffocate"))
 			{
 				int count1 = 0;
@@ -507,7 +418,6 @@ public class test extends JavaPlugin
 						Sand.getBlock().setType(Material.SAND);
 						count1++;
 					}
-
 					sender.sendMessage(ChatColor.RED + "You suffocated " + args[0] + "!");
 					return true;
 				}
@@ -550,74 +460,6 @@ public class test extends JavaPlugin
 					sender.sendMessage(ChatColor.RED + "You rained fire down upon " + args[0]);
 				}
 			}
-			else if (cmd.getName().equalsIgnoreCase("spider"))
-			{
-				Location Spider1 = new Location(currentWorld, x + 2, y, z);
-				Location Spider2 = new Location(currentWorld, x - 2, y, z);
-				Location Spider3 = new Location(currentWorld, x, y, z + 2);
-				Location Spider4 = new Location(currentWorld, x, y, z - 2);
-
-				Spider s1 = (Spider) player.getWorld().spawnCreature(Spider1, EntityType.SPIDER);
-				Spider s2 = (Spider) player.getWorld().spawnCreature(Spider2, EntityType.SPIDER);
-				Spider s3 = (Spider) player.getWorld().spawnCreature(Spider3, EntityType.SPIDER);
-				Spider s4 = (Spider) player.getWorld().spawnCreature(Spider4, EntityType.SPIDER);
-				if (args.length < 2)
-				{
-					s1.setTarget(tplayer);
-					s2.setTarget(tplayer);
-					s3.setTarget(tplayer);
-					s4.setTarget(tplayer);
-
-					sender.sendMessage(ChatColor.RED + "You spawned spiders near " + args[0] + "!");
-					return true;
-				}
-			}
-			else if (cmd.getName().equalsIgnoreCase("skeleton"))
-			{
-				Location Skeleton1 = new Location(currentWorld, x + 2, y, z);
-				Location Skeleton2 = new Location(currentWorld, x - 2, y, z);
-				Location Skeleton3 = new Location(currentWorld, x, y, z + 2);
-				Location Skeleton4 = new Location(currentWorld, x, y, z - 2);
-
-				Skeleton s1 = (Skeleton) player.getWorld().spawnCreature(Skeleton1, EntityType.SKELETON);
-				Skeleton s2 = (Skeleton) player.getWorld().spawnCreature(Skeleton2, EntityType.SKELETON);
-				Skeleton s3 = (Skeleton) player.getWorld().spawnCreature(Skeleton3, EntityType.SKELETON);
-				Skeleton s4 = (Skeleton) player.getWorld().spawnCreature(Skeleton4, EntityType.SKELETON);
-
-				if (args.length < 2)
-				{
-					s1.setTarget(tplayer);
-					s2.setTarget(tplayer);
-					s3.setTarget(tplayer);
-					s4.setTarget(tplayer);
-
-					sender.sendMessage(ChatColor.RED + "You spawned skeletons near " + args[0] + "!");
-					return true;
-				}
-			}
-			else if (cmd.getName().equalsIgnoreCase("zombie"))
-			{
-				Location Zombie1 = new Location(currentWorld, x + 2, y, z);
-				Location Zombie2 = new Location(currentWorld, x - 2, y, z);
-				Location Zombie3 = new Location(currentWorld, x, y, z + 2);
-				Location Zombie4 = new Location(currentWorld, x, y, z - 2);
-
-				Zombie s1 = (Zombie) player.getWorld().spawnCreature(Zombie1, EntityType.ZOMBIE);
-				Zombie s2 = (Zombie) player.getWorld().spawnCreature(Zombie2, EntityType.ZOMBIE);
-				Zombie s3 = (Zombie) player.getWorld().spawnCreature(Zombie3, EntityType.ZOMBIE);
-				Zombie s4 = (Zombie) player.getWorld().spawnCreature(Zombie4, EntityType.ZOMBIE);
-
-				if (args.length < 2)
-				{
-					s1.setTarget(tplayer);
-					s2.setTarget(tplayer);
-					s3.setTarget(tplayer);
-					s4.setTarget(tplayer);
-
-					sender.sendMessage(ChatColor.RED + "You spawned zombies near " + args[0] + "!");
-					return true;
-				}
-			}
 			else if (cmd.getName().equalsIgnoreCase("tstop"))
 			{
 				if (args.length < 2)
@@ -650,7 +492,59 @@ public class test extends JavaPlugin
 					tplayer.setFoodLevel(20);
 					return true;
 				}
+			}
+			else if ((cmd.getName().equalsIgnoreCase("creeper")) || (cmd.getName().equalsIgnoreCase("villager")) || (cmd.getName().equalsIgnoreCase("wolf")) || (cmd.getName().equalsIgnoreCase("spider")) || (cmd.getName().equalsIgnoreCase("skeleton")) || (cmd.getName().equalsIgnoreCase("zombie")))
+			{
+				EntityType mob = EntityType.LIGHTNING;
 
+				if (cmd.getName().equalsIgnoreCase("creeper"))
+				{
+					mob = EntityType.CREEPER;
+				}
+				else if (cmd.getName().equalsIgnoreCase("villager"))
+				{
+					mob = EntityType.VILLAGER;
+				}
+
+				else if (cmd.getName().equalsIgnoreCase("wolf"))
+				{
+					mob = EntityType.WOLF;
+				}
+
+				else if (cmd.getName().equalsIgnoreCase("spider"))
+				{
+					mob = EntityType.SPIDER;
+				}
+
+				else if (cmd.getName().equalsIgnoreCase("skeleton"))
+				{
+					mob = EntityType.SKELETON;
+				}
+
+				else if (cmd.getName().equalsIgnoreCase("zombie"))
+				{
+					mob = EntityType.ZOMBIE;
+				}
+				if (args.length < 2)
+				{
+					Location mloc1 = new Location(currentWorld, x + 3, y, z);
+					Location mloc2 = new Location(currentWorld, x - 3, y, z);
+					Location mloc3 = new Location(currentWorld, x, y, z + 3);
+					Location mloc4 = new Location(currentWorld, x, y, z - 3);
+
+					Creature m1 = (Creature) tplayer.getWorld().spawnCreature(mloc1, mob);
+					Creature m2 = (Creature) tplayer.getWorld().spawnCreature(mloc2, mob);
+					Creature m3 = (Creature) tplayer.getWorld().spawnCreature(mloc3, mob);
+					Creature m4 = (Creature) tplayer.getWorld().spawnCreature(mloc4, mob);
+
+					m1.setTarget(tplayer);
+					m2.setTarget(tplayer);
+					m3.setTarget(tplayer);
+					m4.setTarget(tplayer);
+
+					sender.sendMessage(ChatColor.RED + "You spawned " + mob.getName() + " near " + args[0] + "!");
+					return true;
+				}
 			}
 		}
 		return false;
