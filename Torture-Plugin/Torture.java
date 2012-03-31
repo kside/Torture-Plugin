@@ -1,4 +1,3 @@
-
 package me.IronCrystal.Torture;
 
 import java.util.Random;
@@ -111,7 +110,7 @@ public class test2 extends JavaPlugin
 			return true;
 		}
 
-		String[] tortureArgs = { args[0], (args[1] + args[2] + args[3])};
+		String[] tortureArgs = Array.copyOfRange(args, 2, args.length);
 
 		switch (AllTortureTypes.valueOf(tortureType))
 		{
