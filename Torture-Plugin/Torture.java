@@ -46,10 +46,14 @@ public class test2 extends JavaPlugin
 		PluginDescriptionFile pdfFile = this.getDescription();
 		this.logger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " has been enabled.");
 	}
-	 enum AllTortureTypes {
-	 // To add a new /tt type, add it here, put a case block below, and write the function.
-	 STARVE, HURT, IGNITE, DIE;
-	 }
+
+	enum AllTortureTypes
+	{
+		// To add a new /tt type, add it here, put a case block below, and write
+		// the function.
+		STARVE, HURT, IGNITE, DIE;
+	}
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 
@@ -107,24 +111,23 @@ public class test2 extends JavaPlugin
 			return true;
 		}
 
-		String tortureArgs = args[1].substring(2);
+		String[] tortureArgs = { args[0], (args[1] + args[2] + args[3])};
 
-
-		 switch(AllTortureTypes.valueOf(tortureType))
-		 {
-		 case STARVE:
-		 doStarve(sender, targetPlayer, tortureArgs);
-		 return true;
-		 case HURT:
-		 doHurt(sender, targetPlayer, tortureArgs);
-		 return true;
-		 case IGNITE:
-		 doIgnite(sender, targetPlayer, tortureArgs);
-		 return true;
-		 case DIE:
-		 doDie(sender, targetPlayer, tortureArgs);
-		 return true;
-		 }
+		switch (AllTortureTypes.valueOf(tortureType))
+		{
+		case STARVE:
+			doStarve(sender, targetPlayer, tortureArgs);
+			return true;
+		case HURT:
+			doHurt(sender, targetPlayer, tortureArgs);
+			return true;
+		case IGNITE:
+			doIgnite(sender, targetPlayer, tortureArgs);
+			return true;
+		case DIE:
+			doDie(sender, targetPlayer, tortureArgs);
+			return true;
+		}
 
 		sender.sendMessage(ChatColor.RED + "Unknown torture command: " + tortureType);
 
@@ -136,106 +139,106 @@ public class test2 extends JavaPlugin
 
 	int strength = 0;
 
-	public void doStarve(CommandSender sender, Player target, String[] remainingArgs)
+	public void doStarve(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
 		int newFoodLevel = 1000;
 
-		if (remainingArgs.length == 1)
+		if (tortureArgs.length == 1)
 		{
-			newFoodLevel = Integer.parseInt(remainingArgs[0]);
+			newFoodLevel = Integer.parseInt(tortureArgs[0]);
 		}
 
-		target.setFoodLevel(target.getFoodLevel() - newFoodLevel);
+		targetPlayer.setFoodLevel(targetPlayer.getFoodLevel() - newFoodLevel);
 
-		sender.sendMessage(ChatColor.RED + "You starved " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You starved " + targetPlayer.getDisplayName() + "!");
 	}
 
-	public void doHurt(CommandSender sender, Player target, String[] remainingArgs)
+	public void doHurt(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
 		int newHealth = 19;
 
-		if (remainingArgs.length == 1)
+		if (tortureArgs.length == 1)
 		{
-			newHealth = Integer.parseInt(remainingArgs[0]);
+			newHealth = Integer.parseInt(tortureArgs[0]);
 		}
 
-		target.setHealth(target.getHealth() - newHealth);
+		targetPlayer.setHealth(targetPlayer.getHealth() - newHealth);
 
-		sender.sendMessage(ChatColor.RED + "You hurt " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You hurt " + targetPlayer.getDisplayName() + "!");
 	}
 
-	public void doIgnite(CommandSender sender, Player target, String[] remainingArgs)
+	public void doIgnite(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		if (remainingArgs.length == 1)
+		if (tortureArgs.length == 1)
 		{
-			time = Integer.parseInt(remainingArgs[0]);
+			time = Integer.parseInt(tortureArgs[0]);
 		}
 
-		target.setFireTicks(time);
+		targetPlayer.setFireTicks(time);
 
-		sender.sendMessage(ChatColor.RED + "You set " + target.getDisplayName() + " on fire!");
+		sender.sendMessage(ChatColor.RED + "You set " + targetPlayer.getDisplayName() + " on fire!");
 	}
 
-	public void doDie(CommandSender sender, Player target, String[] remainingArgs)
+	public void doDie(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		target.performCommand("kill");
+		targetPlayer.performCommand("kill");
 
-		sender.sendMessage(ChatColor.RED + "You killed " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You killed " + targetPlayer.getDisplayName() + "!");
 	}
 
-	public void doPain(CommandSender sender, Player target, String[] remainingArgs)
+	public void doPain(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		target.setFoodLevel(0);
-		target.setHealth(1);
+		targetPlayer.setFoodLevel(0);
+		targetPlayer.setHealth(1);
 
-		sender.sendMessage(ChatColor.RED + "You put " + target.getDisplayName() + " in pain!");
+		sender.sendMessage(ChatColor.RED + "You put " + targetPlayer.getDisplayName() + " in pain!");
 	}
 
-	public void doPoison(CommandSender sender, Player target, String[] remainingArgs)
+	public void doPoison(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		if (remainingArgs.length >= 2)
+		if (tortureArgs.length >= 2)
 		{
-			time = Integer.parseInt(remainingArgs[0]);
-			if (remainingArgs.length == 2)
+			time = Integer.parseInt(tortureArgs[0]);
+			if (tortureArgs.length == 2)
 			{
-				strength = Integer.parseInt(remainingArgs[1]);
+				strength = Integer.parseInt(tortureArgs[1]);
 			}
 		}
 
-		target.addPotionEffect(new PotionEffect(PotionEffectType.POISON, time, strength));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, time, strength));
 
-		sender.sendMessage(ChatColor.RED + "You poisoned " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You poisoned " + targetPlayer.getDisplayName() + "!");
 	}
 
-	public void doSlow(CommandSender sender, Player target, String[] remainingArgs)
+	public void doSlow(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, strength));
-		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, time, strength));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, strength));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, time, strength));
 
-		sender.sendMessage(ChatColor.RED + "You slowed down " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You slowed down " + targetPlayer.getDisplayName() + "!");
 	}
 
-	public void doConfuse(CommandSender sender, Player target, String[] remainingArgs)
+	public void doConfuse(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, 15));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, 15));
 
-		sender.sendMessage(ChatColor.RED + "You confused " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You confused " + targetPlayer.getDisplayName() + "!");
 	}
 
-	public void doBlind(CommandSender sender, Player target, String[] remainingArgs)
+	public void doBlind(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, 0));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, 0));
 
-		sender.sendMessage(ChatColor.RED + "You blinded " + target.getDisplayName() + "!");
+		sender.sendMessage(ChatColor.RED + "You blinded " + targetPlayer.getDisplayName() + "!");
 	}
 
 	public void doHelp(int page, CommandSender sender)
