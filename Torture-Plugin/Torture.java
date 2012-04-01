@@ -1,5 +1,7 @@
+
 package me.IronCrystal.Torture;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -73,10 +75,6 @@ public class test2 extends JavaPlugin
 			return true;
 		}
 
-		// if (player == null) {
-		// sender.sendMessage("Quit running from the console! You're going to screw up the backup again");
-		// }
-
 		// Abort if the player has no permission
 		if (player != null && (!player.hasPermission("torture." + tortureType) || !player.isOp()))
 		{
@@ -110,7 +108,7 @@ public class test2 extends JavaPlugin
 			return true;
 		}
 
-		String[] tortureArgs = Array.copyOfRange(args, 2, args.length);
+		String[] tortureArgs = Arrays.copyOfRange(args, 2, args.length);
 
 		switch (AllTortureTypes.valueOf(tortureType))
 		{
@@ -134,6 +132,10 @@ public class test2 extends JavaPlugin
 	}
 
 	// Variable Defaults
+	int newFoodLevel = 1000;
+
+	int newHealth = 19;
+
 	int time = 500;
 
 	int strength = 0;
@@ -141,12 +143,7 @@ public class test2 extends JavaPlugin
 	public void doStarve(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		int newFoodLevel = 1000;
-
-		if (tortureArgs.length == 1)
-		{
-			newFoodLevel = Integer.parseInt(tortureArgs[0]);
-		}
+		newFoodLevel = tortureArgs.length == 1 ? Integer.parseInt(tortureArgs[0]) : 1000;
 
 		targetPlayer.setFoodLevel(targetPlayer.getFoodLevel() - newFoodLevel);
 
@@ -156,12 +153,7 @@ public class test2 extends JavaPlugin
 	public void doHurt(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		int newHealth = 19;
-
-		if (tortureArgs.length == 1)
-		{
-			newHealth = Integer.parseInt(tortureArgs[0]);
-		}
+		newHealth = tortureArgs.length == 1 ? Integer.parseInt(tortureArgs[0]) : 19;
 
 		targetPlayer.setHealth(targetPlayer.getHealth() - newHealth);
 
@@ -171,10 +163,7 @@ public class test2 extends JavaPlugin
 	public void doIgnite(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		if (tortureArgs.length == 1)
-		{
-			time = Integer.parseInt(tortureArgs[0]);
-		}
+		time = tortureArgs.length == 1 ? Integer.parseInt(tortureArgs[0]) : 500;
 
 		targetPlayer.setFireTicks(time);
 
@@ -201,14 +190,8 @@ public class test2 extends JavaPlugin
 	public void doPoison(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
-		if (tortureArgs.length >= 2)
-		{
-			time = Integer.parseInt(tortureArgs[0]);
-			if (tortureArgs.length == 2)
-			{
-				strength = Integer.parseInt(tortureArgs[1]);
-			}
-		}
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
 
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, time, strength));
 
@@ -217,6 +200,9 @@ public class test2 extends JavaPlugin
 
 	public void doSlow(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
+
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
 
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, strength));
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, time, strength));
@@ -227,6 +213,9 @@ public class test2 extends JavaPlugin
 	public void doConfuse(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
+
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, 15));
 
 		sender.sendMessage(ChatColor.RED + "You confused " + targetPlayer.getDisplayName() + "!");
@@ -234,6 +223,9 @@ public class test2 extends JavaPlugin
 
 	public void doBlind(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
+
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
 
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, 0));
 
