@@ -1,6 +1,7 @@
 
 package me.IronCrystal.Torture;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -14,8 +15,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wolf;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +28,7 @@ import org.bukkit.util.Vector;
 
 public class test2 extends JavaPlugin
 {
+
 	// Variable Defaults
 	int newFoodLevel = 1000;
 
@@ -33,17 +37,26 @@ public class test2 extends JavaPlugin
 	int time = 500;
 
 	int strength = 0;
-	
+
 	float explosionPower = 0F;
+
 	Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
+
 	Location targetPlayerLocation = Bukkit.getServer().getPlayer(args[1]).getLocation();
+
 	double y = targetPlayerLocation.getBlockY();
+
 	double x = targetPlayerLocation.getBlockX();
+
 	double z = targetPlayerLocation.getBlockZ();
+
 	World currentTargetWorld = targetPlayer.getWorld();
+
 	int distance = Integer.parseInt(args[1]);
+
 	Location NewTargetPlayerLocation = new Location(currentTargetWorld, x, y + distance, z);
 
+	EntityType mob = EntityType.EGG;
 
 	public final Logger logger = Logger.getLogger("Minecraft");
 
@@ -71,7 +84,12 @@ public class test2 extends JavaPlugin
 	{
 		// To add a new /tt type, add it here, put a case block below, and write
 		// the function.
-		STARVE, HURT, IGNITE, DIE;
+		// Main Tortures
+		STARVE, HURT, IGNITE, DIE, PAIN, FALL, EXPLODE,
+		// Potion Tortures
+		POISON, SLOW, CONFUSE, BLIND, HUNGRY, ILL, TORTURE,
+		// Mobs Spawning
+		CREEPER, ANNOY, RABID, ZOMBIE, SKELETON;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -131,6 +149,7 @@ public class test2 extends JavaPlugin
 
 		switch (AllTortureTypes.valueOf(tortureType))
 		{
+		// Main Tortures
 		case STARVE:
 			doStarve(sender, targetPlayer, tortureArgs);
 			return true;
@@ -143,6 +162,61 @@ public class test2 extends JavaPlugin
 		case DIE:
 			doDie(sender, targetPlayer, tortureArgs);
 			return true;
+		case PAIN:
+			doPain(sender, targetPlayer, tortureArgs);
+			return true;
+		case FALL:
+			doFall(sender, targetPlayer, tortureArgs);
+			return true;
+
+			// Potion Tortures
+		case EXPLODE:
+			doExplode(sender, targetPlayer, tortureArgs);
+			return true;
+		case POISON:
+			doPoison(sender, targetPlayer, tortureArgs);
+			return true;
+		case SLOW:
+			doSlow(sender, targetPlayer, tortureArgs);
+			return true;
+		case CONFUSE:
+			doConfuse(sender, targetPlayer, tortureArgs);
+			return true;
+		case BLIND:
+			doBlind(sender, targetPlayer, tortureArgs);
+			return true;
+		case HUNGRY:
+			doHungry(sender, targetPlayer, tortureArgs);
+			return true;
+		case ILL:
+			doDie(sender, targetPlayer, tortureArgs);
+			return true;
+		case TORTURE:
+			doTorture(sender, targetPlayer, tortureArgs);
+			return true;
+
+			// Mob Spawning
+		case CREEPER:
+			mob = EntityType.CREEPER;
+			doMobs(sender, targetPlayer, tortureArgs);
+			return true;
+		case ANNOY:
+			mob = EntityType.VILLAGER;
+			doMobs(sender, targetPlayer, tortureArgs);
+			return true;
+		case RABID:
+			mob = EntityType.WOLF;
+			doMobs(sender, targetPlayer, tortureArgs);
+			return true;
+		case ZOMBIE:
+			mob = EntityType.ZOMBIE;
+			doMobs(sender, targetPlayer, tortureArgs);
+			return true;
+		case SKELETON:
+			mob = EntityType.SKELETON;
+			doMobs(sender, targetPlayer, tortureArgs);
+			return true;
+
 		}
 
 		sender.sendMessage(ChatColor.RED + "Unknown torture command: " + tortureType);
@@ -150,7 +224,7 @@ public class test2 extends JavaPlugin
 		return true;
 	}
 
-
+	// Main Tortures
 	public void doStarve(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
@@ -198,6 +272,30 @@ public class test2 extends JavaPlugin
 		sender.sendMessage(ChatColor.RED + "You put " + targetPlayer.getDisplayName() + " in pain!");
 	}
 
+	public void doFall(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+
+		explosionPower = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 0F;
+
+		targetPlayer.teleport(NewTargetPlayerLocation);
+		targetPlayer.setHealth(0);
+
+		sender.sendMessage(ChatColor.RED + "You Exploded " + targetPlayer.getDisplayName() + "!");
+	}
+
+	public void doExplode(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+
+		explosionPower = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 0F;
+
+		targetPlayer.getWorld().createExplosion(targetPlayer.getLocation(), explosionPower);
+		targetPlayer.setHealth(0);
+
+		sender.sendMessage(ChatColor.RED + "You Exploded " + targetPlayer.getDisplayName() + "!");
+	}
+
+	// Potion Tortures
+
 	public void doPoison(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
@@ -242,35 +340,35 @@ public class test2 extends JavaPlugin
 
 		sender.sendMessage(ChatColor.RED + "You blinded " + targetPlayer.getDisplayName() + "!");
 	}
-	
+
 	public void doHungry(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
 		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
 		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
-		
+
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, time, strength));
 
 		sender.sendMessage(ChatColor.RED + "You made " + targetPlayer.getDisplayName() + "hungry!");
 	}
-	
+
 	public void doIll(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
 		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
 		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
-		
+
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, time, strength));
 
 		sender.sendMessage(ChatColor.RED + "You confused " + targetPlayer.getDisplayName() + "!");
 	}
-	
+
 	public void doTorture(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
 
 		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
 		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
-		
+
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, time, strength));
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, time, strength));
 		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, strength));
@@ -278,25 +376,35 @@ public class test2 extends JavaPlugin
 
 		sender.sendMessage(ChatColor.RED + "You tortured " + targetPlayer.getDisplayName() + "!");
 	}
-	public void doExplode(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+
+	// Mob Spawning
+
+	public void doMobs(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
-		explosionPower = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 0F;
-		
-		targetPlayer.getWorld().createExplosion(targetPlayer.getLocation(), explosionPower);
-		targetPlayer.setHealth(0);
 
-		sender.sendMessage(ChatColor.RED + "You Exploded " + targetPlayer.getDisplayName() + "!");
+		Location mloc1 = new Location(currentTargetWorld, x + 3, y, z);
+		Location mloc2 = new Location(currentTargetWorld, x - 3, y, z);
+		Location mloc3 = new Location(currentTargetWorld, x, y, z + 3);
+		Location mloc4 = new Location(currentTargetWorld, x, y, z - 3);
+
+		Creature m1 = (Creature) targetPlayer.getWorld().spawnCreature(mloc1, mob);
+		Creature m2 = (Creature) targetPlayer.getWorld().spawnCreature(mloc2, mob);
+		Creature m3 = (Creature) targetPlayer.getWorld().spawnCreature(mloc3, mob);
+		Creature m4 = (Creature) targetPlayer.getWorld().spawnCreature(mloc4, mob);
+
+		((Wolf) m1).setAngry(true);
+		((Wolf) m2).setAngry(true);
+		((Wolf) m3).setAngry(true);
+		((Wolf) m4).setAngry(true);
+
+		m1.setTarget(targetPlayer);
+		m2.setTarget(targetPlayer);
+		m3.setTarget(targetPlayer);
+		m4.setTarget(targetPlayer);
 	}
-	public void doFall(CommandSender sender, Player targetPlayer, String[] tortureArgs)
-	{
-		explosionPower = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 0F;
-		
-		targetPlayer.teleport(NewTargetPlayerLocation);
-		targetPlayer.setHealth(0);
 
-		sender.sendMessage(ChatColor.RED + "You Exploded " + targetPlayer.getDisplayName() + "!");
-	}
-
+	// next is to add: SUFFOCATE, RAINOFFIRE, TSTOP, and the newer features like
+	// RANDOM
 
 	public void doHelp(int page, CommandSender sender)
 	{
