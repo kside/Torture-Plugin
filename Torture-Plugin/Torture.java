@@ -25,6 +25,25 @@ import org.bukkit.util.Vector;
 
 public class test2 extends JavaPlugin
 {
+	// Variable Defaults
+	int newFoodLevel = 1000;
+
+	int newHealth = 19;
+
+	int time = 500;
+
+	int strength = 0;
+	
+	float explosionPower = 0F;
+	Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
+	Location targetPlayerLocation = Bukkit.getServer().getPlayer(args[1]).getLocation();
+	double y = targetPlayerLocation.getBlockY();
+	double x = targetPlayerLocation.getBlockX();
+	double z = targetPlayerLocation.getBlockZ();
+	World currentTargetWorld = targetPlayer.getWorld();
+	int distance = Integer.parseInt(args[1]);
+	Location NewTargetPlayerLocation = new Location(currentTargetWorld, x, y + distance, z);
+
 
 	public final Logger logger = Logger.getLogger("Minecraft");
 
@@ -131,14 +150,6 @@ public class test2 extends JavaPlugin
 		return true;
 	}
 
-	// Variable Defaults
-	int newFoodLevel = 1000;
-
-	int newHealth = 19;
-
-	int time = 500;
-
-	int strength = 0;
 
 	public void doStarve(CommandSender sender, Player targetPlayer, String[] tortureArgs)
 	{
@@ -231,6 +242,61 @@ public class test2 extends JavaPlugin
 
 		sender.sendMessage(ChatColor.RED + "You blinded " + targetPlayer.getDisplayName() + "!");
 	}
+	
+	public void doHungry(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
+		
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, time, strength));
+
+		sender.sendMessage(ChatColor.RED + "You made " + targetPlayer.getDisplayName() + "hungry!");
+	}
+	
+	public void doIll(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
+		
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, time, strength));
+
+		sender.sendMessage(ChatColor.RED + "You confused " + targetPlayer.getDisplayName() + "!");
+	}
+	
+	public void doTorture(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+
+		time = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 500;
+		strength = tortureArgs.length == 2 ? Integer.parseInt(tortureArgs[0]) : 0;
+		
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, time, strength));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, time, strength));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, strength));
+		targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, time, strength));
+
+		sender.sendMessage(ChatColor.RED + "You tortured " + targetPlayer.getDisplayName() + "!");
+	}
+	public void doExplode(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+		explosionPower = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 0F;
+		
+		targetPlayer.getWorld().createExplosion(targetPlayer.getLocation(), explosionPower);
+		targetPlayer.setHealth(0);
+
+		sender.sendMessage(ChatColor.RED + "You Exploded " + targetPlayer.getDisplayName() + "!");
+	}
+	public void doFall(CommandSender sender, Player targetPlayer, String[] tortureArgs)
+	{
+		explosionPower = tortureArgs.length <= 2 ? Integer.parseInt(tortureArgs[0]) : 0F;
+		
+		targetPlayer.teleport(NewTargetPlayerLocation);
+		targetPlayer.setHealth(0);
+
+		sender.sendMessage(ChatColor.RED + "You Exploded " + targetPlayer.getDisplayName() + "!");
+	}
+
 
 	public void doHelp(int page, CommandSender sender)
 	{
