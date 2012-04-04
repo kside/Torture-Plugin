@@ -493,67 +493,90 @@ public class test extends JavaPlugin
     {
 	
 	String tcmd = "torture";
-	final Random rg = new Random();
-	int command = rg.nextInt(24) + 1;
+	Random rg = new Random();
+	int command = rg.nextInt(23);
 	switch (command)
 	{
 	// Main Tortures
-	    case 1:
+	    case 0:
 		tcmd = "starve";
-	    case 2:
+		break;
+	    case 1:
 		tcmd = "hurt";
-	    case 3:
+		break;
+	    case 2:
 		tcmd = "ignite";
-	    case 4:
+		break;
+	    case 3:
 		tcmd = "die";
-	    case 5:
+		break;
+	    case 4:
 		tcmd = "pain";
-	    case 6:
+		break;
+	    case 5:
 		tcmd = "explode";
+		break;
 		
 		// Potion Tortures
-	    case 7:
+	    case 6:
 		tcmd = "poison";
-	    case 8:
+		break;
+	    case 7:
 		tcmd = "slow";
-	    case 9:
+		break;
+	    case 8:
 		tcmd = "confuse";
-	    case 10:
+		break;
+	    case 9:
 		tcmd = "blind";
-	    case 11:
+		break;
+	    case 10:
 		tcmd = "hungry";
-	    case 12:
+		break;
+	    case 11:
 		tcmd = "ill";
-	    case 13:
+		break;
+	    case 12:
 		tcmd = "torture";
+		break;
 		
 		// Complex Tortures
-	    case 14:
+	    case 13:
 		tcmd = "fall";
-	    case 15:
+		break;
+	    case 14:
 		tcmd = "suffocate";
-	    case 16:
+		break;
+	    case 15:
 		tcmd = "rainoffire";
+		break;
 		
 		// Mob Spawning
 	    case 17:
 		tcmd = "creeper";
+		break;
 	    case 18:
 		tcmd = "annoy";
+		break;
 	    case 19:
 		tcmd = "rapid";
+		break;
 	    case 20:
 		tcmd = "zombie";
+		break;
 	    case 21:
 		tcmd = "skeleton";
+		break;
 	    case 22:
 		tcmd = "spider";
+		break;
 	    case 23:
 		tcmd = "aggro";
+		break;
 	}
 	targetPlayer.performCommand("tt " + targetPlayer + " " + tcmd);
-	sender.sendMessage(ChatColor.GREEN + "You set a random torture on " + targetPlayer.getDisplayName() + "!");
-    }
+	sender.sendMessage(ChatColor.GREEN.toString() + "You set a random torture on " + targetPlayer.getDisplayName() + "!");
+    }    
     
     public void doHelp(int page, CommandSender sender)
     {
